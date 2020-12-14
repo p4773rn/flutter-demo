@@ -19,9 +19,13 @@ class NavigationBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: _setScreen,
-      child: Text('$text'),
+    return Expanded(
+      child: InkWell(
+        onTap: _setScreen,
+        child: Center(
+          child: Text('$text'),
+        ),
+      ),
     );
   }
 }

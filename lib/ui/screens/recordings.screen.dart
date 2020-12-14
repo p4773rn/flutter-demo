@@ -65,32 +65,36 @@ class _RecordingsScreenState extends State<RecordingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        MaterialButton(
-          onPressed: _onMainButtonTap,
-          color: Colors.red[800],
-          textColor: Colors.blueGrey[900],
-          child: Icon(
-            _mainIcon,
-            size: 128,
-          ),
-          padding: EdgeInsets.all(32),
-          shape: CircleBorder(),
+    return Container(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            MaterialButton(
+              onPressed: _onMainButtonTap,
+              color: Colors.red[800],
+              textColor: Colors.blueGrey[900],
+              child: Icon(
+                _mainIcon,
+                size: 128,
+              ),
+              padding: EdgeInsets.all(32),
+              shape: CircleBorder(),
+            ),
+            MaterialButton(
+              onPressed: _play,
+              color: Colors.red[800],
+              textColor: Colors.blueGrey[900],
+              child: Icon(
+                Icons.play_arrow,
+                size: 128,
+              ),
+              padding: EdgeInsets.all(32),
+              shape: CircleBorder(),
+            ),
+          ]
         ),
-        MaterialButton(
-          onPressed: _play,
-          color: Colors.red[800],
-          textColor: Colors.blueGrey[900],
-          child: Icon(
-            Icons.play_arrow,
-            size: 128,
-          ),
-          padding: EdgeInsets.all(32),
-          shape: CircleBorder(),
-        ),
-      ]
+      ),
     );
   }
 

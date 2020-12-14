@@ -16,7 +16,6 @@ class NavigationBar extends StatelessWidget {
     return BottomAppBar(
       child: Container(
         height: HEIGHT,
-        padding: const EdgeInsets.all(4),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
