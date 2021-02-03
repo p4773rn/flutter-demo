@@ -1,15 +1,14 @@
-import 'package:demo_recorder/config/navigation.config.dart';
 import 'package:flutter/material.dart';
 
-import 'navigation_bar__item.widget.dart';
+import 'navigation.config.dart';
+import 'navigation_bar_item.widget.dart';
 
 class NavigationBar extends StatelessWidget {
   static const double HEIGHT = 64;
 
-
-  final navigationItems = [
-
-  ];
+  final navigationItemsList = navigationConfigItems
+      .map((item) => NavigationBarItem(config: item))
+      .toList();
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +19,9 @@ class NavigationBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.max,
-          children: [
-            NavigationBarItem(id: 'RECORDING', text: 'One'),
-            NavigationBarItem(id: 'API_DEMO', text: 'Two'),
-            NavigationBarItem(id: 'ANIMATION', text: 'Three'),
-          ],
+          children: navigationItemsList,
         ),
       ),
     );
   }
-
 }

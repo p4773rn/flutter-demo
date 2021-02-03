@@ -1,6 +1,6 @@
 import 'package:permission_handler/permission_handler.dart';
 
-Future<bool> checkPermission() async {
+Future<bool> checkRecordingPermission() async {
   Map<PermissionGroup, PermissionStatus> map = await new PermissionHandler()
       .requestPermissions(
       [PermissionGroup.storage, PermissionGroup.microphone]);
