@@ -21,8 +21,18 @@ class App extends StatelessWidget {
       title: 'Demo Recorder',
       theme: ThemeData(
         primaryColor: Colors.blueGrey[900],
-        accentColor: Colors.amber[700],
+        accentColor: Colors.red[700],
         buttonColor: Colors.red[800],
+        sliderTheme: SliderThemeData(
+          activeTrackColor: Colors.red[600],
+          inactiveTrackColor: Colors.white,
+          trackShape: RectangularSliderTrackShape(),
+          trackHeight: 2.0,
+          thumbColor: Colors.red[800],
+          thumbShape: RoundSliderThumbShape(enabledThumbRadius: 8.0),
+          overlayColor: Colors.red.withAlpha(32),
+          overlayShape: RoundSliderOverlayShape(overlayRadius: 16.0),
+        ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MultiProvider(
