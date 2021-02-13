@@ -1,3 +1,4 @@
+import 'package:demo_recorder/services/audioplayer.service.dart';
 import 'package:demo_recorder/services/recording_files.service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'modules/home/home.screen.dart';
 
 void main() {
+  AudioPlayerService.init();
   runApp(App());
 }
 

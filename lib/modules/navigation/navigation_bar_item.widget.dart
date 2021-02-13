@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'navigation.config.dart';
 
 class NavigationBarItem extends StatelessWidget {
-
   const NavigationBarItem({
     Key key,
     @required this.config,
@@ -24,8 +23,16 @@ class NavigationBarItem extends StatelessWidget {
         return Expanded(
           child: InkWell(
             onTap: () => _setScreen(controller),
-            child: Center(
-              child: Text('${config.title}'),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  config.iconData,
+                  size: 24.0,
+                ),
+                Text('${config.title}'),
+              ],
             ),
           ),
         );

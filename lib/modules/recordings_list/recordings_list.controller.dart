@@ -13,13 +13,17 @@ class RecordingsListController extends ChangeNotifier {
     AudioPlayerService.onComplete(this._onAudioComplete);
   }
 
-
   void _onAudioComplete() {
     _previouslyPlayedRecording.togglePlaying();
     isCurrentlyPlaying = false;
     notifyListeners();
   }
 
+  @override
+  void dispose() {
+    AudioPlayerService.disposeOnComplete(this._onAudioComplete);
+    super.dispose();
+  }
 
   void togglePlay(Recording recording) {
     final path = recording.path;

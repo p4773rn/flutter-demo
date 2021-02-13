@@ -9,13 +9,13 @@ enum NavigationItemId {
 
 class NavigationItemConfig {
   final NavigationItemId id;
-  final String iconName;
+  final IconData iconData;
   final String title;
   final Function screenBuilder;
 
   NavigationItemConfig({
     @required this.id,
-    @required this.iconName,
+    @required this.iconData,
     @required this.title,
     @required this.screenBuilder,
   });
@@ -24,13 +24,13 @@ class NavigationItemConfig {
 final navigationConfigItems = <NavigationItemConfig>[
   NavigationItemConfig(
     id: NavigationItemId.recordings_list,
-    iconName: 'list',
+    iconData: Icons.list,
     title: 'Recordings list',
     screenBuilder: () => RecordingsListScreen(),
   ),
   NavigationItemConfig(
     id: NavigationItemId.recording,
-    iconName: 'record',
+    iconData: Icons.fiber_manual_record,
     title: 'Recording',
     screenBuilder: () => RecordingsScreen(),
   ),

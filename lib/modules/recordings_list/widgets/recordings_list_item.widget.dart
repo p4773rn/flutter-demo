@@ -31,7 +31,6 @@ class RecordingsListItem extends StatelessWidget {
                   Visibility(
                     child: SeekBar(),
                     visible: recording.isPlaying,
-                    // visible: true,
                   ),
                 ],
               ),
