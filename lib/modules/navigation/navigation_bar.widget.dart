@@ -6,12 +6,13 @@ import 'navigation_bar_item.widget.dart';
 class NavigationBar extends StatelessWidget {
   static const double HEIGHT = 64;
 
-  final navigationItemsList = navigationConfigItems
-      .map((item) => NavigationBarItem(config: item))
-      .toList();
-
   @override
   Widget build(BuildContext context) {
+    final navigationItemsList = navigationConfigItems
+        .map((item) => Expanded(
+              child: NavigationBarItem(config: item),
+            ))
+        .toList();
     return BottomAppBar(
       child: Container(
         height: HEIGHT,

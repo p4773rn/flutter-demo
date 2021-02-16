@@ -1,11 +1,13 @@
+import 'package:demo_recorder/modules/navigation/navigation.config.dart';
 import 'package:flutter/material.dart';
 
 class HomeController extends ChangeNotifier {
-  int _index = 0;
+  NavigationItemId _navigationItemIndex = NavigationItemId.values.first;
 
-  get index => _index;
-  set index(value) {
-    _index = value;
+  NavigationItemId get navigationItemIndex => _navigationItemIndex;
+
+  void setIndex(NavigationItemId value) {
+    _navigationItemIndex = value;
     notifyListeners();
   }
 }

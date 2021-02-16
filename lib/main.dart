@@ -1,4 +1,5 @@
 import 'package:demo_recorder/services/audioplayer.service.dart';
+import 'package:demo_recorder/services/recorder.service.dart';
 import 'package:demo_recorder/services/recording_files.service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,15 +7,16 @@ import 'package:provider/provider.dart';
 import 'modules/home/home.screen.dart';
 
 void main() {
-  AudioPlayerService.init();
   runApp(App());
 }
 
 class App extends StatelessWidget {
   // This widget is the root of your application.
 
-  final List<ListenableProvider> providers = [
-    ListenableProvider<RecordingFilesService>(create: (_) => RecordingFilesService()),
+  final List<InheritedProvider> providers = [
+    ChangeNotifierProvider<RecordingFilesService>(create: (_) => RecordingFilesService()),
+    Provider<AudioPlayerService>(create: (_) => AudioPlayerService()),
+    Provider<RecorderService>(create: (_) => RecorderService()),
   ];
 
   @override

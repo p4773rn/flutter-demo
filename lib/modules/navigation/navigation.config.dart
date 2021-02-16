@@ -3,15 +3,15 @@ import 'package:demo_recorder/modules/recordings_list/recordings_list.screen.dar
 import 'package:flutter/material.dart';
 
 enum NavigationItemId {
-  recordings_list,
   recording,
+  recordingsList,
 }
 
 class NavigationItemConfig {
   final NavigationItemId id;
   final IconData iconData;
   final String title;
-  final Function screenBuilder;
+  final Widget Function() screenBuilder;
 
   NavigationItemConfig({
     @required this.id,
@@ -23,15 +23,15 @@ class NavigationItemConfig {
 
 final navigationConfigItems = <NavigationItemConfig>[
   NavigationItemConfig(
-    id: NavigationItemId.recordings_list,
-    iconData: Icons.list,
-    title: 'Recordings list',
-    screenBuilder: () => RecordingsListScreen(),
-  ),
-  NavigationItemConfig(
     id: NavigationItemId.recording,
     iconData: Icons.fiber_manual_record,
     title: 'Recording',
     screenBuilder: () => RecordingsScreen(),
+  ),
+  NavigationItemConfig(
+    id: NavigationItemId.recordingsList,
+    iconData: Icons.list,
+    title: 'Recordings list',
+    screenBuilder: () => RecordingsListScreen(),
   ),
 ];

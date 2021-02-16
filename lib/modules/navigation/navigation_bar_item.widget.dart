@@ -12,31 +12,26 @@ class NavigationBarItem extends StatelessWidget {
 
   final NavigationItemConfig config;
 
-  void _setScreen(controller) {
-    controller.index = config.id.index;
+  void _setScreen(HomeController controller) {
+    controller.setIndex(config.id);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeController>(
-      builder: (context, controller, child) {
-        return Expanded(
-          child: InkWell(
-            onTap: () => _setScreen(controller),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(
-                  config.iconData,
-                  size: 24.0,
-                ),
-                Text('${config.title}'),
-              ],
-            ),
+    final controller = Provider.of<HomeController>(context);
+    return InkWell(
+      onTap: () => _setScreen(controller),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            config.iconData,
+            size: 24.0,
           ),
-        );
-      },
+          Text('${config.title}'),
+        ],
+      ),
     );
   }
 }

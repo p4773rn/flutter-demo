@@ -2,26 +2,30 @@ import 'dart:io';
 
 import 'package:demo_recorder/entities/recording.entity.dart';
 import 'package:demo_recorder/services/audioplayer.service.dart';
+import 'package:demo_recorder/services/recording_files.service.dart';
 import 'package:flutter/material.dart';
 
 class RecordingsListController extends ChangeNotifier {
+  final RecordingFilesService _recordingFilesService;
+  final AudioPlayerService _audioPlayerService;
+  Recording _currentlyPlayingRecording;
 
-  Recording _previouslyPlayedRecording;
-  bool isCurrentlyPlaying = false;
+  List<Recording> get recordings => _recordingFilesService.recordings;
 
-  RecordingsListController() {
-    AudioPlayerService.onComplete(this._onAudioComplete);
+  RecordingsListController({recordingFilesService, audioPlayerService})
+      : _recordingFilesService = recordingFilesService,
+        _audioPlayerService = audioPlayerService {
+    _audioPlayerService.addOnCompleteCallback(this._onAudioComplete);
   }
 
   void _onAudioComplete() {
-    _previouslyPlayedRecording.togglePlaying();
-    isCurrentlyPlaying = false;
+    _currentlyPlayingRecording.togglePlaying();
     notifyListeners();
   }
 
   @override
   void dispose() {
-    AudioPlayerService.disposeOnComplete(this._onAudioComplete);
+    _audioPlayerService.removeOnCompleteCallback(this._onAudioComplete);
     super.dispose();
   }
 
@@ -29,24 +33,20 @@ class RecordingsListController extends ChangeNotifier {
     final path = recording.path;
     if (path != null && File(path).existsSync()) {
       if (recording.isPlaying == false) {
-        if (recording == _previouslyPlayedRecording) {
-          AudioPlayerService.resume();
+        if (recording == _currentlyPlayingRecording) {
+          _audioPlayerService.resume();
         } else {
-          AudioPlayerService.play(path);
-          if (isCurrentlyPlaying) {
-            _previouslyPlayedRecording.togglePlaying();
+          if (_currentlyPlayingRecording != null && _currentlyPlayingRecording.isPlaying) {
+            _currentlyPlayingRecording.togglePlaying();
           }
-          _previouslyPlayedRecording = recording;
+          _audioPlayerService.play(path);
+          _currentlyPlayingRecording = recording;
         }
-        isCurrentlyPlaying = true;
-
       } else {
-        AudioPlayerService.pause();
-        isCurrentlyPlaying = false;
+        _audioPlayerService.pause();
       }
       recording.togglePlaying();
       notifyListeners();
     }
   }
-
 }

@@ -3,10 +3,11 @@ class Recording {
   final String name;
   bool isPlaying;
 
-  Recording(this.path) : name = path.split('/').last, isPlaying = false;
+  Recording(this.path)
+      : name = path.split('/').last,
+        isPlaying = false;
 
-  togglePlaying() {
-    print(this.isPlaying);
-    this.isPlaying = !this.isPlaying;
+  void togglePlaying() {
+    isPlaying = !isPlaying;
   }
 }

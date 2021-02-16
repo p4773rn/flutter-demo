@@ -6,31 +6,42 @@ import 'package:demo_recorder/util/permissions.util.dart';
 import 'package:provider/provider.dart';
 
 class RecordingsController extends ChangeNotifier {
-
+  RecorderService _recorderService;
+  RecordingFilesService _recordingFilesService;
   bool _isRecording = false;
   String _recordingFilePath;
+  final VoidCallback _showSnackbar;
 
-  get isRecording => _isRecording;
+  bool get isRecording => _isRecording;
 
-  void onMainButtonTap(BuildContext context) {
+  RecordingsController(
+      {RecordingFilesService recordingFilesService,
+      RecorderService recorderService,
+      void Function() showSnackbar})
+      : _recordingFilesService = recordingFilesService,
+        _recorderService = recorderService,
+        _showSnackbar = showSnackbar;
+
+  void toggleRecording() async {
     _isRecording = !_isRecording;
-    if (this._isRecording) {
-      this._startRecording();
+    if (isRecording) {
+      final didStartRecording = await _startRecording();
+      if (didStartRecording) {
+        notifyListeners();
+      } else {
+        _isRecording = !_isRecording;
+      }
     } else {
-      this._stopRecording(context);
+      _stopRecording();
+      notifyListeners();
     }
-    notifyListeners();
+
   }
 
-
-  void _startRecording() async {
-    bool hasPermission = await checkRecordingPermission();
-    if (hasPermission) {
-
-      final fileName = this.generateFileName();
-      _recordingFilePath = await FileSystemUtil.getNewFilePath(fileName);
-      RecorderService.start(_recordingFilePath);
-    }
+  Future<bool> _startRecording() async {
+    final String fileName = generateFileName();
+    _recordingFilePath = await _recorderService.start(fileName, _showSnackbar);
+    return _recordingFilePath != null;
   }
 
   String generateFileName() {
@@ -40,11 +51,11 @@ class RecordingsController extends ChangeNotifier {
         '${now.hour}-${now.minute}-${now.second}';
   }
 
-  void _stopRecording(BuildContext context) {
-    RecorderService.stop();
-    final recordingFilesService = Provider.of<RecordingFilesService>(context, listen: false);
+  void _stopRecording() {
+    _recorderService.stop();
+
     if (_recordingFilePath != null) {
-      recordingFilesService.addRecording(_recordingFilePath);
+      _recordingFilesService.addRecording(_recordingFilePath);
     }
     _recordingFilePath = null;
   }

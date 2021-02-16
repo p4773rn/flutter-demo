@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 
 class SeekBar extends StatefulWidget {
 
+  final AudioPlayerService _audioPlayerService;
+
+  SeekBar({audioPlayerService}) : _audioPlayerService = audioPlayerService;
+
   @override
   _SeekBarState createState() => _SeekBarState();
 }
@@ -14,8 +18,8 @@ class _SeekBarState extends State<SeekBar> {
   @override
   void initState() {
     super.initState();
-    AudioPlayerService.onPositionChanged(this._onPositionChanged);
-    AudioPlayerService.onDurationObtained(this._onDurationObtained);
+    widget._audioPlayerService.addOnPositionChangedCallback(this._onPositionChanged);
+    widget._audioPlayerService.addOnDurationObtainedCallback(this._onDurationObtained);
   }
 
   void _onPositionChanged(Duration position) {
@@ -35,7 +39,7 @@ class _SeekBarState extends State<SeekBar> {
 
   void _onSeek(double value) {
     final position = Duration(milliseconds: value.toInt());
-    AudioPlayerService.seek(position);
+    widget._audioPlayerService.seek(position);
   }
 
   @override
@@ -45,8 +49,8 @@ class _SeekBarState extends State<SeekBar> {
   }
 
   void _disposeAudioPlayerSubscriptions() {
-    AudioPlayerService.disposeOnPositionChanged(this._onPositionChanged);
-    AudioPlayerService.disposeOnDurationObtained(this._onDurationObtained);
+    widget._audioPlayerService.removeOnPositionChangedCallback(this._onPositionChanged);
+    widget._audioPlayerService.removeOnDurationObtainedCallback(this._onDurationObtained);
   }
 
   @override

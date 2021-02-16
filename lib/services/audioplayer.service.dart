@@ -1,12 +1,14 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/cupertino.dart';
 
-abstract class AudioPlayerService {
-  static final _audioPlayer = AudioPlayer();
-  static final List<Function> _onCompleteCallbacks = [];
-  static final List<Function> _onPositionChangedCallbacks = [];
-  static final List<Function> _onDurationObtainedCallbacks = [];
+/// Service to play audio giving it audio path
+class AudioPlayerService {
+  final _audioPlayer = AudioPlayer();
+  final List<VoidCallback> _onCompleteCallbacks = [];
+  final List<void Function(Duration)> _onPositionChangedCallbacks = [];
+  final List<void Function(Duration)> _onDurationObtainedCallbacks = [];
 
-  static void init() {
+  AudioPlayerService() {
     _audioPlayer.onPlayerCompletion.listen((event) {
       _onCompleteCallbacks.forEach((cb) {
         cb();
@@ -14,10 +16,10 @@ abstract class AudioPlayerService {
     });
 
     _audioPlayer.onAudioPositionChanged.listen((Duration position) => {
-      _onPositionChangedCallbacks.forEach((cb) {
-        cb(position);
-      })
-    });
+          _onPositionChangedCallbacks.forEach((cb) {
+            cb(position);
+          })
+        });
 
     _audioPlayer.onDurationChanged.listen((Duration duration) {
       _onDurationObtainedCallbacks.forEach((cb) {
@@ -26,38 +28,54 @@ abstract class AudioPlayerService {
     });
   }
 
-
-  static void play(path) {
+  /// Play specified audio
+  /// [path] - path to audio, must be local
+  void play(String path) {
     _audioPlayer.play(path, isLocal: true);
   }
-  static void pause() {
+
+  /// Pause currently playing audio
+  void pause() {
     _audioPlayer.pause();
   }
-  static void resume() {
+
+  /// Resume previously paused audio
+  void resume() {
     _audioPlayer.resume();
   }
-  static void onComplete(Function callback) {
+
+  /// Subscribe to event of audio finished (not paused or stopped)
+  void addOnCompleteCallback(Function callback) {
     _onCompleteCallbacks.add(callback);
   }
-  static void disposeOnComplete(Function callback) {
+
+  /// Unsubscribe to event of audio finished (not paused or stopped)
+  void removeOnCompleteCallback(Function callback) {
     _onCompleteCallbacks.remove(callback);
   }
 
-  static void onPositionChanged(Function callback) {
+  /// Subscribe to event of audio position changed while playing (every ~201 ms)
+  void addOnPositionChangedCallback(Function callback) {
     _onPositionChangedCallbacks.add(callback);
   }
-  static void disposeOnPositionChanged(Function callback) {
+
+  /// Unsubscribe to event of audio position changed while playing (every ~201 ms)
+  void removeOnPositionChangedCallback(Function callback) {
     _onPositionChangedCallbacks.remove(callback);
   }
 
-  static void onDurationObtained(Function callback) {
+  /// Subscribe to event of audio total duration obtaining
+  void addOnDurationObtainedCallback(Function callback) {
     _onDurationObtainedCallbacks.add(callback);
   }
-  static void disposeOnDurationObtained(Function callback) {
+
+  /// Unsubscribe to event of audio total duration obtaining
+  void removeOnDurationObtainedCallback(Function callback) {
     _onDurationObtainedCallbacks.remove(callback);
   }
 
-  static void seek(Duration position) {
+  /// Seek the provided position of currently playing audio
+  void seek(Duration position) {
     _audioPlayer.seek(position);
   }
 }
